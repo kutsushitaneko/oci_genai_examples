@@ -1,5 +1,5 @@
 # %% [markdown]
-# # Oracle Generative AI Service チャットサンプルノートブック（Cohere Command R）
+# # Oracle Generative AI Service チャットサンプルノートブック（Cohere Command R/R+）
 # 関連ドキュメント： Accessing The Code (https://docs.oracle.com/en-us/iaas/Content/generative-ai/get-code.htm#get-code)
 
 # %% [markdown]
@@ -47,7 +47,8 @@ config = oci.config.from_file(file_location='~/.oci/config', profile_name=CONFIG
 # %%
 compartment_id = os.getenv("OCI_COMPARTMENT_ID") 
 #endpoint = "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com" # カスタム・モデル、もしくは、ホスティング専用AIクラスタを使用する際に指定します。生成AIコンソールのエンドポイントで確認できます。
-model_id = "cohere.command-r-16k"
+model_id = "cohere.command-r-plus"
+#model_id = "cohere.command-r-16k"
 
 # %% [markdown]
 # ## Generative AI Service （生成AIサービス）の推論クライアントの生成
@@ -85,7 +86,7 @@ generative_ai_inference_client = oci.generative_ai_inference.GenerativeAiInferen
 # %%
 chat_request = oci.generative_ai_inference.models.CohereChatRequest()
 chat_request.message = "オラクルのリレーショナルデータベースについて教えてください。"
-chat_request.max_tokens = 500
+chat_request.max_tokens = 1000
 chat_request.is_stream = False
 chat_request.temperature = 0.75
 chat_request.top_p = 0.7
@@ -102,6 +103,16 @@ chat_request.documents = [
         "title": "Oracle",
         "snippet": "オラクルのデータベース・サービスおよび製品は、世界をリードするコンバージド・マルチモデル・データベース管理システムであるOracle Databaseをはじめ、インメモリ、NoSQLMySQLデータベースなど、お客様に最適なコストとパフォーマンスを提供しています。Oracle Autonomous Databaseは、Oracle Cloud@CustomerまたはOracle Cloud Infrastructureによって、提供されており、お客様は、リレーショナル・データベース環境を簡素化し、管理ワークロードを削減できます。",
         "website": "https://www.oracle.com/jp/database/"
+    },
+    {
+        "title": "Oracle Database",
+        "snippet": "Oracle Database（オラクル データベース）とは、米国オラクル (Oracle) が開発・販売している、関係データベース管理システム ( 英語: Relational database management system、略称：RDBMS ) のことである。Oracle Databaseは世界初の商用RDBMSであり、メインフレームからパーソナルコンピュータまで、幅広いプラットフォームをサポートしている。",
+        "website": "https://ja.wikipedia.org/wiki/Oracle_Database"
+    },
+    {
+        "title": "Oracle Database 23ai",
+        "snippet": "Oracle Database 23aiでは、新しい世代のAIモデルを活用してベクトルを生成・格納できる強力な新技術、AI ベクトル検索を導入しました。このベクトルとは、埋込みと呼ばれることもあり、ドキュメント、イメージ、ビデオ、サウンドなどを多次元表現したものです。こうしたオブジェクトをベクトルとしてエンコードすることで、数学計算を使用してそれらの間の類似性を検索できます。Oracle Database23aiのソリューションの真のパワーは、SQLを使用して簡単にこれらの類似性検索とビジネス・データの検索を組み合せることができることです。SQLの基本的な知識があれば、誰でも類似性やその他の検索条件を組み合せた強力なステートメントを作成できます。問合せを組み合わせることで、LLMに追加のコンテキストを提供してＬＬＭの知識を拡張し、顧客や組織の質問に対してより正確で関連性の高い回答を可能にします。この実現に向け、新しいデータ型、新しいベクトル索引および拡張機能をSQL言語に追加したことで、ベクトルを問い合わせを、既存のビジネス・データと組合せてOracle Database 23aiの高度な分析機能を活かし、非常に簡単に実行できます。",
+        "website": "https://blogs.oracle.com/oracle4engineer/post/ja-oracle-23ai-now-generally-available"
     }
 ]
 

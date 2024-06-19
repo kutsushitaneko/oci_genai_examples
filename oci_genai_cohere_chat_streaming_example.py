@@ -1,10 +1,11 @@
 # %% [markdown]
-# # Oracle Generative AI Service ストリーミングチャットサンプルノートブック（Cohere Command R）
+# # Oracle Generative AI Service ストリーミングチャットサンプルノートブック（Cohere Command R/R+）
 # 関連ドキュメント： Accessing The Code (https://docs.oracle.com/en-us/iaas/Content/generative-ai/get-code.htm#get-code)
 
 # %% [markdown]
 # ## ライブラリインポート
 # - oci : OCI SDK（ソフトウェア開発キット : https://docs.oracle.com/ja-jp/iaas/Content/API/Concepts/sdks.htm ）
+# - os ：オペレーティングシステムへのアクセスを提供するライブラリ（標準ライブラリ : https://docs.python.org/ja/3/library/os.html ）
 # - time : 時刻データへのアクセスと変換（標準ライブラリ : https://docs.python.org/ja/3/library/time.html ）
 # - dotenv : 環境変数を管理するためのライブラリ（python-dotenv : https://pypi.org/project/python-dotenv/ ）
 # - json ：JSON エンコーダーとデコーダー（標準ライブラリ : https://docs.python.org/ja/3/library/json.html ）
@@ -48,7 +49,8 @@ config = oci.config.from_file(file_location='~/.oci/config', profile_name=CONFIG
 # %%
 compartment_id = os.getenv("OCI_COMPARTMENT_ID") 
 #endpoint = "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com" # カスタム・モデル、もしくは、ホスティング専用AIクラスタを使用する際に指定します。生成AIコンソールのエンドポイントで確認できます。
-model_id = "cohere.command-r-16k"
+model_id = "cohere.command-r-plus"
+#model_id = "cohere.command-r-16k"
 
 # %% [markdown]
 # ## Generative AI Service （生成AIサービス）の推論クライアントの生成
@@ -79,12 +81,11 @@ generative_ai_inference_client = oci.generative_ai_inference.GenerativeAiInferen
 # - top_p : トークン群のうちその生成確率を確率の高いものから順に累計した合計が top_p となるまでのトークン群のみを候補として生成を行う。出現頻度の低いトークンを生成させたくない場合は小さな値を設定する。
 # - top_k ：トークン群のついその生成確率が高いものから k 個のトークン群のみを候補して生成を行う。
 # - is_echo ：Trueの場合にモデルに送信された完全なプロンプトを返します。
-# 
-# CohereSystemMessage ： システムロールのメッセージを定義したクラス。 CohereMessage クラスの派生クラス。[リファレンス](https://docs.oracle.com/en-us/iaas/tools/python/latest/api/generative_ai_inference/models/oci.generative_ai_inference.models.CohereSystemMessage.html)
-# 
-# CohereUserMessage ： ユーザーロールのメッセージを定義したクラス。 CohereMessage クラスの派生クラス。[リファレンス](https://docs.oracle.com/en-us/iaas/tools/python/latest/api/generative_ai_inference/models/oci.generative_ai_inference.models.CohereUserMessage.html)
-# 
-# CohereChatBotMessage ： チャットボットロールのメッセージを定義したクラス。 CohereMessage クラスの派生クラス。[リファレンス](https://docs.oracle.com/en-us/iaas/tools/python/latest/api/generative_ai_inference/models/oci.generative_ai_inference.models.CohereChatBotMessage.html)
+# - chat_history ： ユーザーとモデル間の過去のメッセージのリスト。以下の3種類のメッセージを含むリストを設定します。
+#   - CohereSystemMessage ： システムロールのメッセージを定義したクラス。 CohereMessage クラスの派生クラス。[リファレンス](https://docs.oracle.com/en-us/iaas/tools/python/latest/api/generative_ai_inference/models/oci.generative_ai_inference.models.CohereSystemMessage.html)
+#   - CohereUserMessage ： ユーザーロールのメッセージを定義したクラス。 CohereMessage クラスの派生クラス。[リファレンス](https://docs.oracle.com/en-us/iaas/tools/python/latest/api/generative_ai_inference/models/oci.generative_ai_inference.models.CohereUserMessage.html)
+#   - CohereChatBotMessage ： チャットボットロールのメッセージを定義したクラス。 CohereMessage クラスの派生クラス。[リファレンス](https://docs.oracle.com/en-us/iaas/tools/python/latest/api/generative_ai_inference/models/oci.generative_ai_inference.models.CohereChatBotMessage.html)
+# - documents ： ユーザーのリクエストに対して根拠のある応答を生成するためにモデルが参照できる関連文書のリスト。
 # 
 
 # %%
@@ -107,6 +108,16 @@ chat_request.documents = [
         "title": "Oracle",
         "snippet": "オラクルのデータベース・サービスおよび製品は、世界をリードするコンバージド・マルチモデル・データベース管理システムであるOracle Databaseをはじめ、インメモリ、NoSQLMySQLデータベースなど、お客様に最適なコストとパフォーマンスを提供しています。Oracle Autonomous Databaseは、Oracle Cloud@CustomerまたはOracle Cloud Infrastructureによって、提供されており、お客様は、リレーショナル・データベース環境を簡素化し、管理ワークロードを削減できます。",
         "website": "https://www.oracle.com/jp/database/"
+    },
+    {
+        "title": "Oracle Database",
+        "snippet": "Oracle Database（オラクル データベース）とは、米国オラクル (Oracle) が開発・販売している、関係データベース管理システム ( 英語: Relational database management system、略称：RDBMS ) のことである。Oracle Databaseは世界初の商用RDBMSであり、メインフレームからパーソナルコンピュータまで、幅広いプラットフォームをサポートしている。",
+        "website": "https://ja.wikipedia.org/wiki/Oracle_Database"
+    },
+    {
+        "title": "Oracle Database 23ai",
+        "snippet": "Oracle Database 23aiでは、新しい世代のAIモデルを活用してベクトルを生成・格納できる強力な新技術、AI ベクトル検索を導入しました。このベクトルとは、埋込みと呼ばれることもあり、ドキュメント、イメージ、ビデオ、サウンドなどを多次元表現したものです。こうしたオブジェクトをベクトルとしてエンコードすることで、数学計算を使用してそれらの間の類似性を検索できます。Oracle Database23aiのソリューションの真のパワーは、SQLを使用して簡単にこれらの類似性検索とビジネス・データの検索を組み合せることができることです。SQLの基本的な知識があれば、誰でも類似性やその他の検索条件を組み合せた強力なステートメントを作成できます。問合せを組み合わせることで、LLMに追加のコンテキストを提供してＬＬＭの知識を拡張し、顧客や組織の質問に対してより正確で関連性の高い回答を可能にします。この実現に向け、新しいデータ型、新しいベクトル索引および拡張機能をSQL言語に追加したことで、ベクトルを問い合わせを、既存のビジネス・データと組合せてOracle Database 23aiの高度な分析機能を活かし、非常に簡単に実行できます。",
+        "website": "https://blogs.oracle.com/oracle4engineer/post/ja-oracle-23ai-now-generally-available"
     }
 ]
 
