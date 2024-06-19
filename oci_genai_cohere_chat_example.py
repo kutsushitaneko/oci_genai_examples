@@ -1,5 +1,5 @@
 # %% [markdown]
-# # Oracle Generative AI Service チャットサンプルノートブック（Cohere Command R）
+# # Oracle Generative AI Service チャットサンプルノートブック（Cohere Command R/R+）
 # 関連ドキュメント： Accessing The Code (https://docs.oracle.com/en-us/iaas/Content/generative-ai/get-code.htm#get-code)
 
 # %% [markdown]
