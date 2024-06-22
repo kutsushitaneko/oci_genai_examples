@@ -1,22 +1,25 @@
-# OCI Generative AI Cohere Command R/R+ チャット例
+# OCI Generative AI Cohere Command R/R+ チャットサンプルコード
 
 [English version](https://github.com/kutsushitaneko/oci_genai_examples/blob/main/README.md)
 
-このリポジトリには、Oracle Cloud Infrastructure (OCI) Generative AIとCohereをチャットアプリケーションで使用する方法を示すサンプルスクリプトとノートブックが含まれています。
+このリポジトリには、Oracle Cloud Infrastructure (OCI) Generative AI で提供されている Cohere Command R/R+ をチャットアプリケーションで使用する方法を示すサンプルスクリプトとノートブックが含まれています。
 
 ## 内容
 
-- `oci_genai_cohere_chat_example.ipynb`: OCI GenAI CohereチャットのためのJupyterノートブック例
+- `oci_genai_cohere_chat_example.ipynb`: OCI Generative AI Cohere Command R/R+ によるチャットのためのJupyterノートブック例
 - `oci_genai_cohere_chat_example.py`: チャット例のPythonスクリプト版
-- `oci_genai_cohere_chat_streaming_example.ipynb`: ストリーミングを使用したOCI GenAI Cohereチャットのためのノートブック例
+- `oci_genai_cohere_chat_streaming_example.ipynb`: ストリーミングを使用したOCI Generative AI Cohere Command R/R+ によるチャットのためのノートブック例
 - `oci_genai_cohere_chat_streaming_example.py`: ストリーミングチャット例のPythonスクリプト版
 
 ## 要件
 
-これらの例を実行するには以下が必要です：
+サンプルプログラムの前提条件：
 
-- Python 3.x
+- Python 3.11.9 で動作確認しています
 - 必要なPythonパッケージ（`requirements.txt`に記載）
+
+## 解説記事
+[OCI Generative AI で Cohere Command R/R+ の Chat API を試してみる（Update: ストリームチャット対応）](https://qiita.com/yuji-arakawa/items/597c4bd9f3d5b4212b51)
 
 ## セットアップ
 
