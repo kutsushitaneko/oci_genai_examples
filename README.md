@@ -1,4 +1,5 @@
 # OCI Generative AI Cohere Command R/R+ Chat Examples
+[日本語](https://github.com/kutsushitaneko/oci_genai_examples/blob/main/README_ja.md)
 
 This repository contains example scripts and notebooks demonstrating how to use Oracle Cloud Infrastructure (OCI) Generative AI with Cohere for chat applications.
 
