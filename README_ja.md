@@ -4,6 +4,9 @@
 
 このリポジトリには、Oracle Cloud Infrastructure (OCI) Generative AI で提供されている Cohere Command R/R+ をチャットアプリケーションで使用する方法を示すサンプルスクリプトとノートブックが含まれています。
 
+## 解説記事
+[OCI Generative AI で Cohere Command R/R+ の Chat API を試してみる（Update: ストリームチャット対応）](https://qiita.com/yuji-arakawa/items/597c4bd9f3d5b4212b51)
+
 ## 内容
 
 - `oci_genai_cohere_chat_example.ipynb`: OCI Generative AI Cohere Command R/R+ によるチャットのためのJupyterノートブック例
@@ -17,9 +20,6 @@
 
 - Python 3.11.9 で動作確認しています
 - 必要なPythonパッケージ（`requirements.txt`に記載）
-
-## 解説記事
-[OCI Generative AI で Cohere Command R/R+ の Chat API を試してみる（Update: ストリームチャット対応）](https://qiita.com/yuji-arakawa/items/597c4bd9f3d5b4212b51)
 
 ## セットアップ
 
