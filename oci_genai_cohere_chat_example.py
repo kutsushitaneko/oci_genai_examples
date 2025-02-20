@@ -17,8 +17,13 @@ from dotenv import load_dotenv, find_dotenv
 
 # %% [markdown]
 # ## 環境変数設定
-# OCI のコンパートメントIDを環境変数に設定します。事前準備として ".env" ファイルに OCI_COMPARTMENT_ID=XXXXXXXXXX の書式でコンパートメントIDを記載しておく必要があります
+# 事前準備として ".env" ファイルに OCI のコンパートメントID と Cohere Command R/R+ のモデルID を記載しておきます。
+# - OCI_COMPARTMENT_ID=XXXXXXXXXX の書式でコンパートメントIDを記載
+# - OCI_GENAI_MODEL_ID=xxxxxxxxxx の書式でモデルID を記載（例：cohere.command-r-plus-08-2024）
 # 
+# 利用可能なモデルは、下記公式ドキュメントで確認できます。
+# 日本語：[Oracle Cloud Infrastructureドキュメント >> 生成AI >> 生成AIでの事前トレーニング済基礎モデル](https://docs.oracle.com/ja-jp/iaas/Content/generative-ai/pretrained-models.htm#pretrained-models)
+# 英語：[Oracle Cloud Infrastructure Documentation >> Generative AI >> Pretrained Foundational Models in Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/pretrained-models.htm#pretrained-models)
 
 # %%
 _= load_dotenv(find_dotenv())
@@ -27,16 +32,25 @@ _= load_dotenv(find_dotenv())
 # ## OCI 認証設定
 # - CONFIG_PROFILE：構成ファイルに定義されたプロファイル名
 # - config : SDK and Tool Configuration（認証に関する構成情報を定義するディクショナリー）[リファレンス](https://docs.oracle.com/en-us/iaas/tools/python/latest/configuration.html)
+# - region : 利用するOCI Generative AI サービスのリージョンを Region Identifier で指定します。
 # 
 # 参考ドキュメント
 # - [SDKおよびCLIの構成ファイル](https://docs.oracle.com/ja-jp/iaas/Content/API/Concepts/sdkconfig.htm)
 # - [Configuration](https://docs.oracle.com/en-us/iaas/tools/python/latest/configuration.html)
+# - 利用可能なリージョンは、下記公式ドキュメントで確認できます。
+#     - 日本語：[Oracle Cloud Infrastructureドキュメント >> 生成AI >> 生成AIでの事前トレーニング済基礎モデル](https://docs.oracle.com/ja-jp/iaas/Content/generative-ai/pretrained-models.htm#pretrained-models)
+#     - 英語：[Oracle Cloud Infrastructure Documentation >> Generative AI >> Pretrained Foundational Models in Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/pretrained-models.htm#pretrained-models)
+# - 各リージョンの Region Identifier は下記公式ドキュメントで確認できます。
+#     - 日本語：[リージョンおよび可用性ドメイン](https://docs.oracle.com/ja-jp/iaas/Content/General/Concepts/regions.htm)
+#         日本語ページはリージョン識別子（Region Identifier）の一部が日本語に翻訳されてしまって間違っています。英語ページも併せてご確認ください。
+#     - 英語：[Regions and Availability Domains](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm)
 # 
 # 
 
 # %%
 CONFIG_PROFILE = "DEFAULT" # 構成ファイルに合わせて変更してください。
 config = oci.config.from_file(file_location='~/.oci/config', profile_name=CONFIG_PROFILE)
+config["region"] = "us-chicago-1"
 
 # %% [markdown]
 # ## Oracle Generative AI Service （生成AIサービス）設定
@@ -47,8 +61,8 @@ config = oci.config.from_file(file_location='~/.oci/config', profile_name=CONFIG
 # %%
 compartment_id = os.getenv("OCI_COMPARTMENT_ID") 
 #endpoint = "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com" # カスタム・モデル、もしくは、ホスティング専用AIクラスタを使用する際に指定します。生成AIコンソールのエンドポイントで確認できます。
-model_id = "cohere.command-r-plus"
-#model_id = "cohere.command-r-16k"
+model_id = os.getenv("OCI_GENAI_MODEL_ID")
+print(f"model_id:{model_id}")
 
 # %% [markdown]
 # ## Generative AI Service （生成AIサービス）の推論クライアントの生成
