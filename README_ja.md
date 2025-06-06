@@ -2,7 +2,7 @@
 
 [English version](https://github.com/kutsushitaneko/oci_genai_examples/blob/main/README.md)
 
-このリポジトリには、Oracle Cloud Infrastructure (OCI) Generative AI で提供されている Cohere Command R/R+ をチャットアプリケーションで使用する方法を示すサンプルスクリプトとノートブックが含まれています。
+このリポジトリには、Oracle Cloud Infrastructure (OCI) Generative AI で提供されている Cohere Command R/R+/A をチャットアプリケーションで使用する方法を示すサンプルスクリプトとノートブックが含まれています。
 
 ## 解説記事
 - [OCI Generative AI で Cohere Command R/R+ の Chat API を試してみる（Update: ストリームチャット対応）](https://qiita.com/yuji-arakawa/items/597c4bd9f3d5b4212b51)
